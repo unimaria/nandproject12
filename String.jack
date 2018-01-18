@@ -4,12 +4,15 @@ class String{
 	field strMaxLength;
 	field length;
 	field zeroAscii;
+	field nineAscii;
 	
 	constructor String new(int maxLength){
 		let string = Array.new(maxLength); //check: if maxLength = 0?
 		let strMaxLength = maxLength;
 		let length = 0;
 		let zeroAscii = 48; //a constant that holds ascii for 0 digit
+		let nineAscii = 57;
+		return this;
 	}
 	
 	method void dispose(){
@@ -45,7 +48,19 @@ class String{
 		return;
 	}
 	
+	// check: negative numbers
 	method int intValue(){
+		var int val;
+		var int i;
+		var int d;
+		
+		let val = 0;
+		let i = 0;
+		while((i < length) & (string[i] > (zeroAscii - 1)) & (string[i] < (nineAscii + 1))){
+			let d = string[i] - zeroAscii;
+			let val = (val * 10) + d;
+		}
+		return val;
 	}
 	
 	// check : what happens if number is negative
@@ -73,10 +88,16 @@ class String{
 		
 	}
 	
-	function char newLine(){}
+	function char newLine(){
+		return 128;
+	}
 	
-	function char backSpace(){}
+	function char backSpace(){
+		return 129;
+	}
 	
-	function char doubleQuote(){}
+	function char doubleQuote(){
+		return 34;
+	}
 	
 }
