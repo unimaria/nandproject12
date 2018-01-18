@@ -1,0 +1,57 @@
+class String{
+	
+	field Array string;
+	field strMaxLength;
+	field length;
+	
+	constructor String new(int maxLength){
+		let string = Array.new(maxLength); //check: if maxLength = 0?
+		let strMaxLength = maxLength;
+		let length = 0;
+	}
+	
+	method void dispose(){
+		do Array.dispose(string);
+		return;
+	}
+	
+	method int length(){
+		return length;
+	}
+	
+	method char charAt(int j){
+		return string[j];
+	}
+	
+	method void setCharAt(int j, char c){
+		let string[j] = c;
+		return;
+	}
+	
+	method String appendChar(char c){
+		if (length < strMaxLength){
+			let string[length] = c;
+			let length = length + 1;
+		}
+		return this;
+	}
+	
+	method void eraseLastChar(){
+		if (length > 0){
+			let length = length - 1;
+		}
+		return;
+	}
+	
+	method int intValue(){
+	}
+	
+	method void setInt(int number){}
+	
+	function char newLine(){}
+	
+	function char backSpace(){}
+	
+	function char doubleQuote(){}
+	
+}
