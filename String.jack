@@ -3,11 +3,13 @@ class String{
 	field Array string;
 	field strMaxLength;
 	field length;
+	field zeroAscii;
 	
 	constructor String new(int maxLength){
 		let string = Array.new(maxLength); //check: if maxLength = 0?
 		let strMaxLength = maxLength;
 		let length = 0;
+		let zeroAscii = 48; //a constant that holds ascii for 0 digit
 	}
 	
 	method void dispose(){
@@ -46,7 +48,30 @@ class String{
 	method int intValue(){
 	}
 	
-	method void setInt(int number){}
+	// check : what happens if number is negative
+	method void setInt(int number){
+		var int tens;
+		var int lastDigit;
+		var int c;
+		var int newNumber;
+		
+		let length = 0;
+		let tens = number / 10;
+		let tens = number * 10;
+		let lastDigit = number - tens;
+		let c = zeroAscii + lastDigit; // char representing lastdigit
+		if (number < 10){
+			do appendChar(c);
+			return; // check: if this is a good place for return
+		}
+		else{
+			let newNumber = number / 10;
+			do setInt(newNumber);
+			do appendChar(c);
+			return;
+		}
+		
+	}
 	
 	function char newLine(){}
 	
