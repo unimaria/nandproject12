@@ -42,8 +42,37 @@ class Math{
 		return y;
 	}
 
-	function int sqrt(int x, int y)
+	function int sqrt(int x)
 	{
-	
+		var int high, low, root;
+		if(x = 1 || x = 0)
+		{
+			return x;
+		}
+
+		let high = x / 2;
+		let low = 1;
+
+		while(~(high = low))
+		{
+			let root = (high - low)/2;
+			let rootSquared = root * root;
+			if(rootSquared > x)
+			{
+				let high = root;
+			}
+			else
+			{
+				if(rootSquared < x)
+				{
+					let low = root;
+				}
+				else
+				{
+					return root;
+				}
+			}
+		}
+		return high;
 	}
 }
