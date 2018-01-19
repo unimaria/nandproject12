@@ -1,0 +1,107 @@
+class Keyboard{
+		
+		static var KEYBOARDINPUT = 244576;
+
+		function void init()
+		{
+
+		}
+
+		function char keyPressed()
+		{
+			var int keyPressed;
+			let keyPressed = Memory.poke(KEYBOARDINPUT);
+			return keyPressed;
+		}
+
+		function char readChar()
+		{
+			var int done;
+			var char theChar;
+			let done = 1;
+			while(done = 1)
+			{
+				let theChar = Keyboard.keyPressed();
+
+				if(~(theChar = 0))
+				{
+					let done = 0;
+					while(~(0 = Keyboard.keyPressed()))
+					{
+						do Sys.wait(1);
+					}
+					if( ~(theChar = String.backSpace() || theChar = String.newLine()) )	//todo make sure we can do these comparisons
+					{
+						do Output.printChar();
+					}
+					return theChar;
+				}
+				do Sys.wait(1);
+			}
+		}
+
+		function String readLine(String message)
+		{
+			var String theString;
+			var char nextChar;
+			let String theString = String.new();
+			do Output.printString(message);
+			let nextChar = 0; 			//todo see if we can do this assignment
+			while(~(nextChar = 0))		//todo check that its a good comparison
+			{
+				let nextChar = Keyboard.readChar();
+
+				if(nextChar = String.newLine())
+				{
+					do Output.println();
+					return theString;
+				}	
+				if(nextChar = String.backSpace())
+				{
+					if(theString.length() > 0)
+					{
+						do theString.eraseLastChar();
+						do Output.backSpace();
+					}
+				}
+				else
+				{
+					theString.appendChar(nextChar);
+				}
+			}
+		}
+
+		function int readInt()
+		{
+			//todo check and see if it works
+			var String theString;
+			var char nextChar;
+			var int result;
+			let String theString = String.new();
+			do Output.printString(message);
+			let nextChar = 0; 			//todo see if we can do this assignment
+			while(~(nextChar = 0))		//todo check that its a good comparison
+			{
+				let nextChar = Keyboard.readChar();
+
+				if(nextChar = String.newLine())
+				{
+					do Output.println();
+					let result = theString.intValue;
+					return result;
+				}	
+				if(nextChar = String.backSpace())
+				{
+					if(theString.length() > 0)
+					{
+						do theString.eraseLastChar();
+						do Output.backSpace();
+					}
+				}
+				else
+				{
+					theString.appendChar(nextChar);
+				}
+			}
+		}
+}

@@ -1,6 +1,6 @@
 class Sys{
 	
-	function init()
+	function void init()
 	{
 			// initializing OS functions
 			do String.init();
@@ -13,7 +13,7 @@ class Sys{
 			do Main.main();
 	}
 
-	function wait(int n)
+	function void wait(int n)
 	{
 			var int i, m;
 			let i = 1;
@@ -25,7 +25,12 @@ class Sys{
 			}
 	}
 
-	function halt()
+	function void error(int errorCode)
+	{
+			//todo print error code
+	}
+
+	function void halt()
 	{
 			while(true)
 			{
