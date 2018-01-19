@@ -81,32 +81,30 @@ class String{
 		var int newNumber;
 	
 		let tens = number / 10;
-		let tens = number * 10;
+		let tens = tens * 10;
 		let lastDigit = number - tens;
 		let c = zeroAscii + lastDigit; // char representing lastdigit
 		if (number < 10){
 			do appendChar(c);
-			return; // check: if this is a good place for return
+			return;
 		}
 		else{
 			let newNumber = number / 10;
-			do setInt(newNumber);
+			do setInt_helper(newNumber);
 			do appendChar(c);
 			return;
 		}
 	}
 	
-	// check : what happens if number is negative
 	method void setInt(int number){
 		let length = 0;
 		if (number < 0){
 			let number = -number;
 			do appendChar(45); // ascii for minus
 		}
+		
 		do setInt_helper(number);
 		return;
-		
-		
 	}
 	
 	function char newLine(){
