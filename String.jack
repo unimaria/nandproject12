@@ -1,15 +1,19 @@
 class String{
 	
 	field Array string;
-	field strMaxLength;
-	field length;
-	field zeroAscii;
-	field nineAscii;
+	field int strMaxLength;
+	field int length;
+	field int zeroAscii;
+	field int nineAscii;
 	
 	constructor String new(int maxLength){
+		let length = 0;
+		if (maxLength = 0){
+			let maxLength = 1;
+			let length = 1;
+		}
 		let string = Array.new(maxLength); //check: if maxLength = 0?
 		let strMaxLength = maxLength;
-		let length = 0;
 		let zeroAscii = 48; //a constant that holds ascii for 0 digit
 		let nineAscii = 57;
 		return this;
@@ -48,7 +52,6 @@ class String{
 		return;
 	}
 	
-	// check: negative numbers
 	method int intValue(){
 		var int val;
 		var int i;
@@ -56,21 +59,27 @@ class String{
 		
 		let val = 0;
 		let i = 0;
+		// if the firs char is minus
+		if (string[0] = 45){
+			let i = 1;
+		}
 		while((i < length) & (string[i] > (zeroAscii - 1)) & (string[i] < (nineAscii + 1))){
 			let d = string[i] - zeroAscii;
 			let val = (val * 10) + d;
+			let i = i + 1;
+		}
+		if (string[0] = 45){
+			let val = -val;
 		}
 		return val;
 	}
 	
-	// check : what happens if number is negative
-	method void setInt(int number){
+	method void setInt_helper(int number){
 		var int tens;
 		var int lastDigit;
 		var int c;
 		var int newNumber;
-		
-		let length = 0;
+	
 		let tens = number / 10;
 		let tens = number * 10;
 		let lastDigit = number - tens;
@@ -85,6 +94,18 @@ class String{
 			do appendChar(c);
 			return;
 		}
+	}
+	
+	// check : what happens if number is negative
+	method void setInt(int number){
+		let length = 0;
+		if (number < 0){
+			let number = -number;
+			do appendChar(45); // ascii for minus
+		}
+		do setInt_helper(number);
+		return;
+		
 		
 	}
 	
