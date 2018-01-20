@@ -86,10 +86,38 @@ class Screen {
 			let value = and;
 		}
 		do Memory.poke(address, value);
+		return;
     }
 
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
     function void drawLine(int x1, int y1, int x2, int y2) {
+		var int x;
+		var int y;
+		var int dx;
+		var int dy;
+		var int a;
+		var int b;
+		var int diff;
+		
+		let x = x1;
+		let y = y1;
+		let dx = x2 - x1;
+		let dy = y2 - y1;
+		let a = 0;
+		let b = 0;
+		let diff = 0; // diff = a*dy - b*dx
+		while((~(a > dx)) & (~(b > dy) )){
+			do drawPixel(x + a, y + b);
+			if (diff < 0){ // b/a > dy / dx
+				let a = a + 1;
+				let diff = diff + dy;
+			}
+			else{
+				let b = b + 1;
+				let diff = diff - dx;
+			}
+		}
+		return;
     }
 
     /** Draws a filled rectangle whose top left corner is (x1, y1)
