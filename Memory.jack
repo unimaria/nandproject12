@@ -1,5 +1,5 @@
 class Memory {
-	static array ram; // Array or array?
+	static Array ram;
 	
 	function void init(){
 		let ram = 0 ;
