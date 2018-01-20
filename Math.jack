@@ -136,34 +136,29 @@ class Math{
 			return x;
 		}
 
-		let high = x / 2;	// x >= 4 -> sqrt(x) <= x/2
+		// if root > 181 there is overflow 
+		// root <= 181 for all integers <= 2^15
+		let high = 181;
 		let low = 1;
 
 		while(~(high = low))
 		{
 			let root = Math.divide((high + low), 2);
-			if(root < 181)		// 181 ~= sqrt(2^15)
+			let rootSquared = Math.multiply(root, root);
+			if(rootSquared > x)
 			{
-				let rootSquared = Math.multiply(root, root);
-				if(rootSquared > x)
-				{
-					let high = root - 1;
-				}
-				else
-				{
-					if(rootSquared < x)
-					{
-						let low = root + 1;
-					}
-					else	// rootSquared = x
-					{
-						return root;
-					}
-				}
+				let high = root - 1;
 			}
-			else	// rootSquared would be overflow
+			else
 			{
-				let high = root;
+				if(rootSquared < x)
+				{
+					let low = root + 1;
+				}
+				else	// rootSquared = x
+				{
+					return root;
+				}
 			}
 		}
 		return high;
