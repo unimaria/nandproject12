@@ -19,16 +19,16 @@ class Keyboard{
 
 		function char readChar()
 		{
-			var int done;
+			var boolean done;
 			var char theChar;
-			let done = 1;
-			while(done = 1)
+			let done = false;
+			while(~done)
 			{
 				let theChar = Keyboard.keyPressed();
 
 				if(~(theChar = 0))
 				{
-					let done = 0;
+					let done = true;
 					while( ~(0 = Keyboard.keyPressed()) )
 					{
 						do Sys.wait(1);

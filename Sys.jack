@@ -15,19 +15,22 @@ class Sys{
 
 	function void wait(int n)
 	{
-			var int i, m;
-			let i = 1;
-			let m = 10; //factor of time each machine is different
-			while(i < (n * m))
-			{
-					let i = i + 1;
-					do Math.sqrt(m);
-			}
+		var int i, j;
+        let i = 0;
+        while( i < n ) {
+            let j = 0;
+            while( j < 150 ) {
+                let j = j + 1;
+            }
+            let i = i + 1;
+        }
+        return;
 	}
 
 	function void error(int errorCode)
 	{
-			//todo print error code
+			do Output.printInt(errorCode);
+			return;
 	}
 
 	function void halt()
@@ -37,5 +40,5 @@ class Sys{
 
 			}
 	} 
-
+	return;
 }
