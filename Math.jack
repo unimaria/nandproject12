@@ -1,4 +1,6 @@
 class Math{
+	
+	static int qTimes2y;
 
 	function void init()
 	{
@@ -16,11 +18,24 @@ class Math{
 		
 	function int multiply(int x, int y)
 	{
-		var int sum, shiftedX, bit, iter;
+		var int sum, shiftedX, bit, iter, signX, signY;
+		let signX = 1;
+		let signY = 1;
+		if(x < 0)
+		{
+			let x = Math.abs(x);
+			let signX = -1;
+		}
+		if(y < 0)
+		{
+			let y = Math.abs(y);
+			let signY = -1;
+		}
 		let sum = 0;
 		let iter = 0;
 		let shiftedX = x;
 		let bit = 1;
+
 		while(iter < 15)
 		{
 			// checks if the (iter+1) th bit of y is one
@@ -29,23 +44,61 @@ class Math{
 				let sum = sum + shiftedX;
 			}
 			let bit = bit + bit;
-			let shiftedX = shiftedX + shiftedX;
+			let shiftedX = (shiftedX + shiftedX) & 32767; //todo find better shift
+			let iter = iter + 1;
 		}
+		if( ((signX = 1) & (signY = -1)) | ((signX = -1) & (signY = 1)))
+		{
+			return -sum;
+		}
+		return sum;
 	}
 
-	function int divide(int x, int y)
+	function int innerDivide(int x, int y)
 	{
 		var int q;
 		if(y > x)
 		{
 			return 0;
 		}
-		let q = Math.divide(x, y + y);
-		if( (x - Math.multiply(q + q, y)) < y )
+		let q = Math.innerDivide(x, y + y);
+		if( (x - qTimes2y) < y )
 		{
 			return q + q;
 		}
-		return q + q + 1;
+		else
+		{
+			let qTimes2y = qTimes2y + y;
+			return q + q + 1;
+		}
+	}
+	function int divide(int x, int y)
+	{
+		var int signX, signY, result;
+		// start qTimes2y
+		let qTimes2y = 0;
+		let signX = 1;
+		let signY = 1;
+		if(x < 0)
+		{
+			let x = Math.abs(x);
+			let signX = -1;
+		}
+		if(y < 0)
+		{
+			let y = Math.abs(y);
+			let signY = -1;
+		}
+
+		// computes positive integer division
+		let result = Math.innerDivide(x, y);
+
+		//makes result the right sign
+		if( ((signX = 1) & (signY = -1)) | ((signX = -1) & (signY = 1)) )
+		{
+			return -result;
+		}
+		return result;
 	}
 
 	function int min(int x, int y)
@@ -68,7 +121,7 @@ class Math{
 
 	function int sqrt(int x)
 	{
-		var int high, low, root;
+		var int high, low, root, rootSquared;
 		if( (x = 1) | (x = 0) )
 		{
 			return x;
