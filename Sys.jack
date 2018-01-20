@@ -3,7 +3,6 @@ class Sys{
 	function void init()
 	{
 			// initializing OS functions
-			do String.init();
 			do Math.init();
 			do Output.init();
 			do Array.init();
