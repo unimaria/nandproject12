@@ -72,7 +72,6 @@ class Math{
 			let qTimes2y = qTimes2y + y;
 			return q + q + 1;
 		}
-		return 0;
 	}
 	function int divide(int x, int y)
 	{
