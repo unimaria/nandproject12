@@ -14,11 +14,14 @@ class Screen {
 	static boolean curColor;
 	static Array binaryBitsOr;
 	static Array binaryBitsAnd;
+	static Array screen;
 
     /** Initializes the Screen. */
     function void init() {
 		let curColor = true;
+		let screen = 16384;
 		let binaryBitsOr = Array.new(16); //as number of bits
+		let binaryBitsAnd = Array.new(16);
 		let binaryBitsOr[0] = 1;     // 0000000000000001
 		let binaryBitsOr[1] = 2;     // 0000000000000010
 		let binaryBitsOr[2] = 4;     // 0000000000000100
@@ -34,32 +37,42 @@ class Screen {
 		let binaryBitsOr[12] = 4096; // 0001000000000000
 		let binaryBitsOr[13] = 8192; // 0010000000000000
 		let binaryBitsOr[14] = 16384;// 0100000000000000
-		let binaryBitsOr[15] = 32768;// 1000000000000000 todo: check this one
-		let binaryBitsAnd[0] = ~binaryBitsOr[0]; // 1111111111111110
-		let binaryBitsAnd[1] = ~binaryBitsOr[1]; // 1111111111111101
-		let binaryBitsAnd[2] = ~binaryBitsOr[2]; // 1111111111111011
-		let binaryBitsAnd[3] = ~binaryBitsOr[3]; // 1111111111110111
-		let binaryBitsAnd[4] = ~binaryBitsOr[4]; // 1111111111101111
-		let binaryBitsAnd[5] = ~binaryBitsOr[5]; // 1111111111011111
-		let binaryBitsAnd[6] = ~binaryBitsOr[6]; // 1111111110111111
-		let binaryBitsAnd[7] = ~binaryBitsOr[7]; // 1111111101111111
-		let binaryBitsAnd[8] = ~binaryBitsOr[8]; // 1111111011111111
-		let binaryBitsAnd[9] = ~binaryBitsOr[9]; // 1111110111111111
-		let binaryBitsAnd[10]= ~binaryBitsOr[10];// 1111101111111111
-		let binaryBitsAnd[11]= ~binaryBitsOr[11];// 1111011111111111
-		let binaryBitsAnd[12]= ~binaryBitsOr[12];// 1110111111111111
-		let binaryBitsAnd[13]= ~binaryBitsOr[13];// 1101111111111111
-		let binaryBitsAnd[14]= ~binaryBitsOr[14];// 1011111111111111
-		let binaryBitsAnd[15]= ~binaryBitsOr[15];// 0111111111111111
+		let binaryBitsOr[15] = 16384 + 16384;// 1000000000000000
+		let binaryBitsAnd[0] = ~(binaryBitsOr[0]); // 1111111111111110
+		let binaryBitsAnd[1] = ~(binaryBitsOr[1]); // 1111111111111101
+		let binaryBitsAnd[2] = ~(binaryBitsOr[2]); // 1111111111111011
+		let binaryBitsAnd[3] = ~(binaryBitsOr[3]); // 1111111111110111
+		let binaryBitsAnd[4] = ~(binaryBitsOr[4]); // 1111111111101111
+		let binaryBitsAnd[5] = ~(binaryBitsOr[5]); // 1111111111011111
+		let binaryBitsAnd[6] = ~(binaryBitsOr[6]); // 1111111110111111
+		let binaryBitsAnd[7] = ~(binaryBitsOr[7]); // 1111111101111111
+		let binaryBitsAnd[8] = ~(binaryBitsOr[8]); // 1111111011111111
+		let binaryBitsAnd[9] = ~(binaryBitsOr[9]); // 1111110111111111
+		let binaryBitsAnd[10]= ~(binaryBitsOr[10]);// 1111101111111111
+		let binaryBitsAnd[11]= ~(binaryBitsOr[11]);// 1111011111111111
+		let binaryBitsAnd[12]= ~(binaryBitsOr[12]);// 1110111111111111
+		let binaryBitsAnd[13]= ~(binaryBitsOr[13]);// 1101111111111111
+		let binaryBitsAnd[14]= ~(binaryBitsOr[14]);// 1011111111111111
+		let binaryBitsAnd[15]= ~(binaryBitsOr[15]);// 0111111111111111
+		return;
     }
 
     /** Erases the entire screen. */
     function void clearScreen() {
+		var int i;
+		let i = 0;
+		while (i<24576){
+			let screen[i] = 0;
+			let i = i + 1;
+		}
+		return;
     }
 
     /** Sets the current color, to be used for all subsequent drawXXX commands.
      *  Black is represented by true, white by false. */
     function void setColor(boolean b) {
+		let curColor = b;
+		return;
     }
 
     /** Draws the (x,y) pixel, using the current color. */
@@ -85,7 +98,7 @@ class Screen {
 		else{
 			let value = and;
 		}
-		do Memory.poke(address, value);
+		do Memory.poke(16384 + address, value);
 		return;
     }
 
@@ -99,23 +112,79 @@ class Screen {
 		var int b;
 		var int diff;
 		
-		let x = x1;
-		let y = y1;
-		let dx = x2 - x1;
-		let dy = y2 - y1;
-		let a = 0;
-		let b = 0;
-		let diff = 0; // diff = a*dy - b*dx
-		while((~(a > dx)) & (~(b > dy) )){
-			do drawPixel(x + a, y + b);
-			if (diff < 0){ // b/a > dy / dx
-				let a = a + 1;
-				let diff = diff + dy;
+		if (y1 = y2){
+			let dx = x1;
+			if (x1 > x2){ // swap them
+				let dx = x2;
+				let x2 = x1;
+				let x1 = dx;
 			}
-			else{
-				let b = b + 1;
-				let diff = diff - dx;
+			while(~(dx > x2)){
+				do Screen.drawPixel(dx, y1);
+				let dx = dx + 1;
 			}
+		}
+		
+		if (x1 = x2){
+			let dy = y1;
+			if (y1 > y2){
+				let dy = y2;
+				let y2 = y1;
+				let y1 = dy;
+			}
+			while(~(dy > y2)){
+				do Screen.drawPixel(x1, dy);
+				let dy = dy + 1;
+			}
+		}
+		if ((x1 < x2) & (y1 > y2)){
+			let x = x1;
+			let y = y1;
+			let dx = x2 - x1;
+			let dy = y1 - y2;
+			let a = 0;
+			let b = 0;
+			let diff = 0; // diff = a*dy - b*dx
+			while((~(a > dx)) & (~(b > dy) )){
+				do Screen.drawPixel(x + a, y - b);
+				if (diff < 0){ // b/a > dy / dx
+					let a = a + 1;
+					let diff = diff + dy;
+				}
+				else{
+					let b = b + 1;
+					let diff = diff - dx;
+				}
+			}
+		}
+		
+		if ((x2 < x1) & (y2 > y1)){
+			do Screen.drawLine(x2, y2, x1, y1);
+		}
+		
+		if ((x1 < x2) & (y1 < y2)){
+			let x = x1;
+			let y = y1;
+			let dx = x2 - x1;
+			let dy = y2 - y1;
+			let a = 0;
+			let b = 0;
+			let diff = 0; // diff = a*dy - b*dx
+			while((~(a > dx)) & (~(b > dy) )){
+				do Screen.drawPixel(x + a, y + b);
+				if (diff < 0){ // b/a > dy / dx
+					let a = a + 1;
+					let diff = diff + dy;
+				}
+				else{
+					let b = b + 1;
+					let diff = diff - dx;
+				}
+			}
+		}
+		
+		if( (x2 < x1) & (y2<y1)){
+			do Screen.drawLine(x2, y2, x1, y1);
 		}
 		return;
     }
@@ -123,9 +192,29 @@ class Screen {
     /** Draws a filled rectangle whose top left corner is (x1, y1)
      * and bottom right corner is (x2,y2), using the current color. */
     function void drawRectangle(int x1, int y1, int x2, int y2) {
+		var int dy;
+		
+		let dy = y1;
+		while(~(dy > y2)){
+			do Screen.drawLine(x1, dy, x2, dy);
+			let dy = dy + 1;
+		}
+		return;
     }
 
     /** Draws a filled circle of radius r<=181 around (x,y), using the current color. */
     function void drawCircle(int x, int y, int r) {
+		var int dy;
+		var int root;
+		
+		if (~(r > 181)){
+			let dy = -r;
+			while ((dy < r) | (dy = r)){
+				let root = Math.multiply(r , r) - Math.multiply(dy, dy);
+				do Screen.drawLine(x - Math.sqrt(root), y + dy, x + Math.sqrt(root), y + dy);
+				let dy = dy + 1;
+			}
+		}
+		return;
     }
 }
