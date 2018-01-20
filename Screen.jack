@@ -12,28 +12,45 @@
 class Screen {
 	
 	static boolean curColor;
-	static Array binaryBits;
+	static Array binaryBitsOr;
+	static Array binaryBitsAnd;
 
     /** Initializes the Screen. */
     function void init() {
 		let curColor = true;
-		let binaryBits = Array.new(16); //as number of bits
-		let binaryBits[0] = 1;     // 0000000000000001
-		let binaryBits[1] = 2;     // 0000000000000010
-		let binaryBits[2] = 4;     // 0000000000000100
-		let binaryBits[3] = 8;     // 0000000000001000
-		let binaryBits[4] = 16;    // 0000000000010000
-		let binaryBits[5] = 32;    // 0000000000100000
-		let binaryBits[6] = 64;    // 0000000001000000
-		let binaryBits[7] = 128;   // 0000000010000000
-		let binaryBits[8] = 256;   // 0000000100000000
-		let binaryBits[9] = 512;   // 0000001000000000
-		let binaryBits[10] = 1024; // 0000010000000000
-		let binaryBits[11] = 2048; // 0000100000000000
-		let binaryBits[12] = 4096; // 0001000000000000
-		let binaryBits[13] = 8192; // 0010000000000000
-		let binaryBits[14] = 16384;// 0100000000000000
-		let binaryBits[15] = 32768;// 1000000000000000 todo: check this one
+		let binaryBitsOr = Array.new(16); //as number of bits
+		let binaryBitsOr[0] = 1;     // 0000000000000001
+		let binaryBitsOr[1] = 2;     // 0000000000000010
+		let binaryBitsOr[2] = 4;     // 0000000000000100
+		let binaryBitsOr[3] = 8;     // 0000000000001000
+		let binaryBitsOr[4] = 16;    // 0000000000010000
+		let binaryBitsOr[5] = 32;    // 0000000000100000
+		let binaryBitsOr[6] = 64;    // 0000000001000000
+		let binaryBitsOr[7] = 128;   // 0000000010000000
+		let binaryBitsOr[8] = 256;   // 0000000100000000
+		let binaryBitsOr[9] = 512;   // 0000001000000000
+		let binaryBitsOr[10] = 1024; // 0000010000000000
+		let binaryBitsOr[11] = 2048; // 0000100000000000
+		let binaryBitsOr[12] = 4096; // 0001000000000000
+		let binaryBitsOr[13] = 8192; // 0010000000000000
+		let binaryBitsOr[14] = 16384;// 0100000000000000
+		let binaryBitsOr[15] = 32768;// 1000000000000000 todo: check this one
+		let binaryBitsAnd[0] = ~binaryBitsOr[0]; // 1111111111111110
+		let binaryBitsAnd[1] = ~binaryBitsOr[1]; // 1111111111111101
+		let binaryBitsAnd[2] = ~binaryBitsOr[2]; // 1111111111111011
+		let binaryBitsAnd[3] = ~binaryBitsOr[3]; // 1111111111110111
+		let binaryBitsAnd[4] = ~binaryBitsOr[4]; // 1111111111101111
+		let binaryBitsAnd[5] = ~binaryBitsOr[5]; // 1111111111011111
+		let binaryBitsAnd[6] = ~binaryBitsOr[6]; // 1111111110111111
+		let binaryBitsAnd[7] = ~binaryBitsOr[7]; // 1111111101111111
+		let binaryBitsAnd[8] = ~binaryBitsOr[8]; // 1111111011111111
+		let binaryBitsAnd[9] = ~binaryBitsOr[9]; // 1111110111111111
+		let binaryBitsAnd[10]= ~binaryBitsOr[10];// 1111101111111111
+		let binaryBitsAnd[11]= ~binaryBitsOr[11];// 1111011111111111
+		let binaryBitsAnd[12]= ~binaryBitsOr[12];// 1110111111111111
+		let binaryBitsAnd[13]= ~binaryBitsOr[13];// 1101111111111111
+		let binaryBitsAnd[14]= ~binaryBitsOr[14];// 1011111111111111
+		let binaryBitsAnd[15]= ~binaryBitsOr[15];// 0111111111111111
     }
 
     /** Erases the entire screen. */
@@ -51,16 +68,24 @@ class Screen {
 		var int value;
 		var int modx;
 		var int orBit;
+		var int andBit;
 		var int or;
+		var int and;
 		
 		let address = (32 * y) + (x / 16);
 		let value = Memory.peek(16384 + address);
 		let modx = x - ((x/16) * 16);
-		let orBit = binaryBits[modx];
+		let orBit = binaryBitsOr[modx];
 		let or = orBit | value;
-		
-		
-		
+		let andBit = binaryBitsAnd[modx];
+		let and = andBit & value;
+		if (curColor){
+			let value = or; // color is black
+		}
+		else{
+			let value = and;
+		}
+		do Memory.poke(address, value);
     }
 
     /** Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color. */
