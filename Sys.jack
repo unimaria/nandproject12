@@ -18,7 +18,7 @@ class Sys{
 			var int i, m;
 			let i = 1;
 			let m = 10; //factor of time each machine is different
-			while(i < n * m)
+			while(i < (n * m))
 			{
 					let i = i + 1;
 					do Math.sqrt(m);

@@ -10,14 +10,14 @@ class Keyboard{
 		function char keyPressed()
 		{
 			var int keyPressed;
-			let keyPressed = Memory.poke(KEYBOARDINPUT);
+			let keyPressed = Memory.peek(KEYBOARDINPUT);
 			return keyPressed;
 		}
 
 		function char readChar()
 		{
 			var int done;
-			var char theChar;
+			var int theChar;
 			let done = 1;
 			while(done = 1)
 			{
