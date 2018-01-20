@@ -31,7 +31,7 @@ class Memory {
     	return;
     }
 
-    function Array updateLists(int currentList, int lastList, size)
+    function Array updateLists(int currentList, int lastList, int size)
     {
     	var Array result;
 
@@ -88,36 +88,23 @@ class Memory {
      *  a reference to its base address. */
     function int alloc(int size) {
 
-
     	var Array currentList, lastList, result;
-       	if(freeList[0] > size + 2)	// have to allocate for size+1 and two more for freelist 
+       	if(freeList[0] > size)
     	{
-    		let result = freeList + 1;
-    		freeList = freeList + size + 1;
-    		let freeList[0] = result[-1] - size - 1;
-    		let freeList[1] = result[0];
-    		let result[-1] = size;
-    	}
-    	if()
-    	if(freeList[0] = size)
-    	{
-
+    		return updateLists(freeList, 0, size);
     	}
     	let lastList = freeList;
-    	let currentList = freeList;
+    	let currentList = freeList[1];
     	while(currentList[0] < size + 1)
     	{
-    		if(currentList[1] = 0)
+    		if(currentList[1] = 0)	// last list and we cant alloc
     		{
     			return -1;
     		}
     		let lastList = currentList;
     		let currentList = currentList[1];
     	}
-    	if(currentList[0] = size)
-    	{
-    		lastList[]
-    	}
+ 		return update(currentList, lastList, size);
     }
 
     /** De-allocates the given object (cast as an array) by making
