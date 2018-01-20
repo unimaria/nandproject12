@@ -5,8 +5,9 @@ class Keyboard{
 
 		function void init()
 		{
-			let KEYBOARDINPUT = 244576;
+			let KEYBOARDINPUT = 24576;
 			let MAX_STR_LENGTH = 20;
+			return;
 		}
 
 		function char keyPressed()
@@ -40,13 +41,14 @@ class Keyboard{
 				}
 				do Sys.wait(1);
 			}
+			return theChar;
 		}
 
 		function String readLine(String message)
 		{
 			var String theString;
 			var char nextChar;
-			
+
 			let theString = String.new(MAX_STR_LENGTH);
 			do Output.printString(message);
 			let nextChar = 0; 			//todo see if we can do this assignment
@@ -72,6 +74,7 @@ class Keyboard{
 					do theString.appendChar(nextChar);
 				}
 			}
+			return theString;
 		}
 
 		function int readInt(String message)
@@ -106,5 +109,6 @@ class Keyboard{
 					do theString.appendChar(nextChar);
 				}
 			}
+			return result;
 		}
 }
