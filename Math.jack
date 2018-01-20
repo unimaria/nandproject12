@@ -127,7 +127,7 @@ class Math{
 			return x;
 		}
 
-		let high = Math.divide(x, 2);
+		let high = x;
 		let low = 1;
 
 		while(~(high = low))
