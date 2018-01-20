@@ -68,7 +68,7 @@ class Math{
 		}
 		else
 		{
-			q = 0;
+			let q = 0;
 		}
 		
 		if( (x - qTimes2y) < y )
