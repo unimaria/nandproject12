@@ -9,6 +9,8 @@ class Sys{
 			do Memory.init();
 			do Keyboard.init();
 			do Main.main();
+			do Sys.halt();
+			return;
 	}
 
 	function void wait(int n)
@@ -37,5 +39,6 @@ class Sys{
 			{
 
 			} 
+			return;
 	}
 }
