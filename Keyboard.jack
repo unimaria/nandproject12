@@ -1,17 +1,19 @@
 class Keyboard{
 		
 		static int KEYBOARDINPUT;
+		static int MAX_STR_LENGTH;
 
 		function void init()
 		{
-			KEYBOARDINPUT = 244576;
+			let KEYBOARDINPUT = 244576;
+			let MAX_STR_LENGTH = 20;
 		}
 
 		function char keyPressed()
 		{
-			var char keyPressed;
-			let keyPressed = Memory.peek(KEYBOARDINPUT);
-			return keyPressed;
+			var char key;
+			let key = Memory.peek(KEYBOARDINPUT);
+			return key;
 		}
 
 		function char readChar()
@@ -26,13 +28,13 @@ class Keyboard{
 				if(~(theChar = 0))
 				{
 					let done = 0;
-					while(~(0 = Keyboard.keyPressed()))
+					while( ~(0 = Keyboard.keyPressed()) )
 					{
 						do Sys.wait(1);
 					}
 					if( ~((theChar = String.backSpace()) | (theChar = String.newLine())) )	//todo make sure we can do these comparisons
 					{
-						do Output.printChar();
+						do Output.printChar(theChar);
 					}
 					return theChar;
 				}
@@ -44,10 +46,11 @@ class Keyboard{
 		{
 			var String theString;
 			var char nextChar;
-			let theString = String.new();
+			
+			let theString = String.new(MAX_STR_LENGTH);
 			do Output.printString(message);
 			let nextChar = 0; 			//todo see if we can do this assignment
-			while(~(nextChar = 0))		//todo check that its a good comparison
+			while( ~(nextChar = String.newLine()) )		//todo check that its a good comparison
 			{
 				let nextChar = Keyboard.readChar();
 
@@ -71,16 +74,16 @@ class Keyboard{
 			}
 		}
 
-		function int readInt()
+		function int readInt(String message)
 		{
 			//todo check and see if it works
 			var String theString;
 			var char nextChar;
 			var int result;
-			let String theString = String.new();
+			let theString = String.new(MAX_STR_LENGTH);
 			do Output.printString(message);
 			let nextChar = 0; 			//todo see if we can do this assignment
-			while(~(nextChar = 0))		//todo check that its a good comparison
+			while(~(nextChar = String.newLine()))		//todo check that its a good comparison
 			{
 				let nextChar = Keyboard.readChar();
 
