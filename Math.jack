@@ -62,7 +62,15 @@ class Math{
 		{
 			return 0;
 		}
-		let q = Math.innerDivide(x, y + y);
+		if(y < 16384)
+		{
+			let q = Math.innerDivide(x, y + y);
+		}
+		else
+		{
+			q = 0;
+		}
+		
 		if( (x - qTimes2y) < y )
 		{
 			return q + q;
