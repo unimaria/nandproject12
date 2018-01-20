@@ -16,12 +16,36 @@ class Math{
 		
 	function int multiply(int x, int y)
 	{
-
+		var int sum, shiftedX, bit, iter;
+		let sum = 0;
+		let iter = 0;
+		let shiftedX = x;
+		let bit = 1;
+		while(iter < 15)
+		{
+			// checks if the (iter+1) th bit of y is one
+			if( (y & bit) = bit )	
+			{
+				let sum = sum + shiftedX;
+			}
+			let bit = bit + bit;
+			let shiftedX = shiftedX + shiftedX;
+		}
 	}
 
 	function int divide(int x, int y)
 	{
-
+		var int q;
+		if(y > x)
+		{
+			return 0;
+		}
+		let q = Math.divide(x, y + y);
+		if( (x - Math.multiply(q + q, y)) < y )
+		{
+			return q + q;
+		}
+		return q + q + 1;
 	}
 
 	function int min(int x, int y)
@@ -45,18 +69,18 @@ class Math{
 	function int sqrt(int x)
 	{
 		var int high, low, root;
-		if(x = 1 || x = 0)
+		if( (x = 1) | (x = 0) )
 		{
 			return x;
 		}
 
-		let high = x / 2;
+		let high = Math.divide(x, 2);
 		let low = 1;
 
 		while(~(high = low))
 		{
-			let root = (high - low)/2;
-			let rootSquared = root * root;
+			let root = Math.divide((high - low), 2);
+			let rootSquared = Math.multiply(root, root);
 			if(rootSquared > x)
 			{
 				let high = root;

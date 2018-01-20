@@ -1,15 +1,15 @@
 class Keyboard{
 		
-		static var KEYBOARDINPUT = 244576;
+		static int KEYBOARDINPUT;
 
 		function void init()
 		{
-
+			KEYBOARDINPUT = 244576;
 		}
 
 		function char keyPressed()
 		{
-			var int keyPressed;
+			var char keyPressed;
 			let keyPressed = Memory.peek(KEYBOARDINPUT);
 			return keyPressed;
 		}
@@ -17,7 +17,7 @@ class Keyboard{
 		function char readChar()
 		{
 			var int done;
-			var int theChar;
+			var char theChar;
 			let done = 1;
 			while(done = 1)
 			{
@@ -30,7 +30,7 @@ class Keyboard{
 					{
 						do Sys.wait(1);
 					}
-					if( ~(theChar = String.backSpace() || theChar = String.newLine()) )	//todo make sure we can do these comparisons
+					if( ~((theChar = String.backSpace()) | (theChar = String.newLine())) )	//todo make sure we can do these comparisons
 					{
 						do Output.printChar();
 					}
@@ -44,7 +44,7 @@ class Keyboard{
 		{
 			var String theString;
 			var char nextChar;
-			let String theString = String.new();
+			let theString = String.new();
 			do Output.printString(message);
 			let nextChar = 0; 			//todo see if we can do this assignment
 			while(~(nextChar = 0))		//todo check that its a good comparison
@@ -66,7 +66,7 @@ class Keyboard{
 				}
 				else
 				{
-					theString.appendChar(nextChar);
+					do theString.appendChar(nextChar);
 				}
 			}
 		}
@@ -87,7 +87,7 @@ class Keyboard{
 				if(nextChar = String.newLine())
 				{
 					do Output.println();
-					let result = theString.intValue;
+					let result = theString.intValue();
 					return result;
 				}	
 				if(nextChar = String.backSpace())
@@ -100,7 +100,7 @@ class Keyboard{
 				}
 				else
 				{
-					theString.appendChar(nextChar);
+					do theString.appendChar(nextChar);
 				}
 			}
 		}
