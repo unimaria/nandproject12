@@ -127,7 +127,7 @@ class Math{
 			return x;
 		}
 
-		let high = x;
+		let high = x / 2;	// x >= 4 -> sqrt(x) <= x/2
 		let low = 1;
 
 		while(~(high = low))
