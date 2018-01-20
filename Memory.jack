@@ -91,7 +91,7 @@ class Memory {
     	var Array currentList, lastList, result;
        	if(freeList[0] > size)
     	{
-    		return updateLists(freeList, 0, size);
+    		return Memory.updateLists(freeList, 0, size);
     	}
     	let lastList = freeList;
     	let currentList = freeList[1];
@@ -104,11 +104,82 @@ class Memory {
     		let lastList = currentList;
     		let currentList = currentList[1];
     	}
- 		return update(currentList, lastList, size);
+ 		return Memory.update(currentList, lastList, size);
+    }
+
+    function void linkChain(Array smaller, Array bigger)
+    {
+    	let smaller[0] = smaller[0] + bigger[0];
+    	let smaller[1] = bigger[1];
     }
 
     /** De-allocates the given object (cast as an array) by making
      *  it available for future allocations. */
     function void deAlloc(Array o) {
+   		var Array currentList, lastList, newList;
+   		let newList = o - 1;
+   		let currentList = freeList;
+   		while( (currentList < o) & (~(currentList = 0)) )
+   		{
+   			let lastList = currentList;
+   			let currentList = currentList[1];
+   		}
+   		// now either currentList is at the start,end or middle of the chain
+   		if(currentList = freeList)
+   		{
+   			if( (newList + newList[0]) = freeList )
+   			{
+   				let newList[0] = newList[0] + freeList[0];
+    			let newList[1] = freeList[1];
+    			let freeList = newList;
+   			}
+   			else
+   			{
+   				let newList[1] = freeList;
+   				let freeList = newList;
+   			}
+   		}
+   		else
+   		{
+	   		if(currentList = 0)		// at the end of the chain
+	   		{
+	   			if( (lastList + lastList[0]) = newList )
+	   			{
+	   				let lastList[0] = lastList[0] + newList[0];
+	    			let lastList[1] = 0;
+	   			}
+	   			else
+	   			{
+	   				let lastList[1] = newList;
+	   				let newList[1] = 0;
+	   			}
+	   		}
+	   		else 	//in between two lists
+	   		{
+	   			// first merge last two
+	   			if( (newList + newList[0]) = currentList )
+	   			{
+	   				let newList[0] = newList[0] + currentList[0];
+	   				let newList[1] = currentList[1];
+	   			}
+	   			else
+	   			{
+	   				let newList[1] = currentList;
+	   			}
+
+	   			//now merge front two
+	   			if( (lastList + lastList[0]) = newList )
+	   			{
+	   				let lastList[0] = lastList[0] + newList[0];
+	    			let lastList[1] = newList[1];
+	   			}
+	   			else
+	   			{
+	   				let lastList[1] = newList;
+	   			}
+	   		}
+	   	}
+
+	   	return;
     }    
 }
