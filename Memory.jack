@@ -12,12 +12,15 @@ class Memory {
 	static Array freeList;
 	static int STACK_SIZE;
 	static Array RAM;
+
+
     /** Initializes the class. */
     function void init() {
     	let RAM = 0;
     	let STACK_SIZE = 16383 - 2047;
     	let freeList = 2048;
     	let freeList[0] = STACK_SIZE;
+    	return;
     }
 
     /** Returns the RAM value at the given address. */
@@ -35,7 +38,7 @@ class Memory {
     {
     	var Array result;
 
-    	if(currentList[0] > size + 2)	// have to allocate for size+1 and two more for currentList
+    	if( currentList[0] > (size + 2) )	// have to allocate for size+1 and two more for currentList
     	{
     		let result = currentList + 1;
     		currentList = currentList + size + 1;
@@ -50,7 +53,7 @@ class Memory {
     	}
     	else
     	{
-    		if(currentList[0] = size + 2)	//cant save current list so we add it to object
+    		if( currentList[0] = (size + 2) )	//cant save current list so we add it to object
 	    	{
 	    		let result = currentList + 1;
 	    			if(lastList = 0)
@@ -66,7 +69,7 @@ class Memory {
 	    	}
 	    	else 	
 	    	{
-	    		if(currentList[0] = size + 1)	//we can replace this segment entirely
+	    		if( currentList[0] = (size + 1) )	//we can replace this segment entirely
 	    		{
 	    			let result = currentList + 1;
 	    			if(lastList = 0)
@@ -82,6 +85,9 @@ class Memory {
 	    		}
 	    	}
 	    }
+
+	    //doest get here
+	    return -1;
     }
 
     /** Finds an available RAM block of the given size and returns
@@ -95,7 +101,7 @@ class Memory {
     	}
     	let lastList = freeList;
     	let currentList = freeList[1];
-    	while(currentList[0] < size + 1)
+    	while( currentList[0] < (size + 1) )
     	{
     		if(currentList[1] = 0)	// last list and we cant alloc
     		{
@@ -104,13 +110,7 @@ class Memory {
     		let lastList = currentList;
     		let currentList = currentList[1];
     	}
- 		return Memory.update(currentList, lastList, size);
-    }
-
-    function void linkChain(Array smaller, Array bigger)
-    {
-    	let smaller[0] = smaller[0] + bigger[0];
-    	let smaller[1] = bigger[1];
+ 		return Memory.updateLists(currentList, lastList, size);
     }
 
     /** De-allocates the given object (cast as an array) by making
