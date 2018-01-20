@@ -134,7 +134,7 @@ class Math{
 
 		while(~(high = low))
 		{
-			let root = Math.divide((high - low), 2);
+			let root = Math.divide((high + low), 2);
 			let rootSquared = Math.multiply(root, root);
 			if(rootSquared > x)
 			{
