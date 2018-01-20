@@ -5,7 +5,6 @@ class Sys{
 			// initializing OS functions
 			do Math.init();
 			do Output.init();
-			do Array.init();
 			do Screen.init();
 			do Memory.init();
 			do Keyboard.init();
