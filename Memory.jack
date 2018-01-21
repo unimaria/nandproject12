@@ -20,6 +20,7 @@ class Memory {
     	let STACK_SIZE = 16383 - 2047;
     	let freeList = 2048;
     	let freeList[0] = STACK_SIZE;
+    	let freeList[1] = 0;
     	return;
     }
 
@@ -34,17 +35,21 @@ class Memory {
     	return;
     }
 
-    function Array updateLists(int currentList, int lastList, int size)
+    function Array updateLists(Array currentList, Array lastList, int size)
     {
     	var Array result;
 
     	if( currentList[0] > (size + 2) )	// have to allocate for size+1 and two more for currentList
     	{
     		let result = currentList + 1;
-    		currentList = currentList + size + 1;
+    		let currentList = currentList + size + 1;
     		if( ~(lastList = 0) )
     		{
     			let lastList[1] = currentList;
+    		}
+    		else
+    		{
+    			let freeList = freeList + size + 1;
     		}
     		let currentList[0] = result[-1] - size - 1;
     		let currentList[1] = result[0];
@@ -94,7 +99,7 @@ class Memory {
      *  a reference to its base address. */
     function int alloc(int size) {
 
-    	var Array currentList, lastList, result;
+    	var Array currentList, lastList;
        	if(freeList[0] > size)
     	{
     		return Memory.updateLists(freeList, 0, size);
@@ -112,6 +117,7 @@ class Memory {
     	}
  		return Memory.updateLists(currentList, lastList, size);
     }
+    
 
     /** De-allocates the given object (cast as an array) by making
      *  it available for future allocations. */
